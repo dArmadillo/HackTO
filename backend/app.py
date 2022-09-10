@@ -1,4 +1,5 @@
 import email
+from xml.sax.handler import all_properties
 from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
 from flask_marshmallow import Marshmallow
@@ -9,13 +10,14 @@ app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:////tmp/test.db"
 db = SQLAlchemy(app)
 ma = Marshmallow(app)
 
+##### ENUMS #####
 
 class UserProjectStates(enum.Enum):
     APPLIED = 1
     ACTIVE = 2
     COMPLETED = 3
 
-
+##### MODELS #####
 class UserProject(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     user_id = db.Column(db.Integer, db.ForeignKey("user.id"), primary_key=True)
@@ -53,6 +55,7 @@ class User(db.Model):
         super(User, self).__init__(**kwargs)
         self.level = 0
 
+##### SCHEMAS #####
 
 class UserSchema(ma.SQLAlchemySchema):
     class Meta:
@@ -61,7 +64,18 @@ class UserSchema(ma.SQLAlchemySchema):
     username = ma.auto_field()
     email = ma.auto_field()
 
+class ProjectSchema(ma.SQLAlchemySchema):
+    class Meta:
+        model = Project
+    
+    title = ma.auto_field()
+    description = ma.auto_field()
+    body = ma.auto_field()
+    creator = ma.auto_field()
 
+
+
+##### ROUTES #####
 
 @app.route("/")
 def hello_world():
@@ -74,3 +88,21 @@ users_schema = UserSchema(many=True)
 def users():
     all_users = User.query.all()
     return users_schema.dump(all_users)
+
+@app.route("/api/users/<id>")
+def user(id):
+    user = User.query.get(id)
+    return user_schema.dump(user)
+
+project_schema = ProjectSchema()
+projects_schema = ProjectSchema(many=True)
+@app.route("/api/projects/")
+def projects():
+    all_projects = Project.query.all()
+    return projects_schema.dump(all_projects)
+
+@app.route("/api/projects/<id>")
+def project(id):
+    project = Project.query.get(id)
+    print(project)
+    return project_schema.dump(project)
