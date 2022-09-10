@@ -1,11 +1,13 @@
+import email
 from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
+from flask_marshmallow import Marshmallow
 import enum
 
 app = Flask(__name__)
 app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:////tmp/test.db"
-app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
 db = SQLAlchemy(app)
+ma = Marshmallow(app)
 
 
 class UserProjectStates(enum.Enum):
@@ -27,6 +29,16 @@ class UserProject(db.Model):
     def __repr__(self):
         return f"[ASSOC-{self.id}] PROJECT-{self.project_id} <-> USER-{self.user_id}"
 
+class Project(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    title = db.Column(db.String(120), nullable=False)
+    description = db.Column(db.String(), nullable=False)
+    body = db.Column(db.String(), nullable=False)
+    creator = db.Column(db.String(120), nullable=False)
+
+    def __repr__(self):
+        return f"[PROJECT-{self.id}] name: {self.title}"
+
 
 class User(db.Model):
     id = db.Column(db.Integer, primary_key=True)
@@ -42,12 +54,23 @@ class User(db.Model):
         self.level = 0
 
 
-class Project(db.Model):
-    id = db.Column(db.Integer, primary_key=True)
-    title = db.Column(db.String(120), nullable=False)
-    description = db.Column(db.String(), nullable=False)
-    body = db.Column(db.String(), nullable=False)
-    creator = db.Column(db.String(120), nullable=False)
+class UserSchema(ma.SQLAlchemySchema):
+    class Meta:
+        model = User
+    
+    username = ma.auto_field()
+    email = ma.auto_field()
 
-    def __repr__(self):
-        return f"[PROJECT-{self.id}] name: {self.title}"
+
+
+@app.route("/")
+def hello_world():
+    return "Hello, World!"
+
+
+user_schema = UserSchema()
+users_schema = UserSchema(many=True)
+@app.route("/api/users/")
+def users():
+    all_users = User.query.all()
+    return users_schema.dump(all_users)
