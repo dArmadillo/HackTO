@@ -46,13 +46,27 @@ class UserProject(db.Model):
         return f"[ASSOC-{self.id}] PROJECT-{self.project_id} <-> USER-{self.user_id}"
 
 
-projectListAttributes = ['objectives']
+projectListAttributes = ['objectives', 'accomodations', 'technical_skills', 'soft_skills', 'requirements']
 class Project(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     title = db.Column(db.String(120), nullable=False)
     description = db.Column(db.String(), nullable=False)
+    signup_deadline = db.Column(db.String(), nullable=False)
+    project_start_date = db.Column(db.String(), nullable=False)
+    project_picture_link = db.Column(db.String(), nullable=False)
+    
+    #Lists
     objectives = db.Column(db.String(), nullable=False)
-    creator = db.Column(db.String(120), nullable=False)
+    accomodations = db.Column(db.String(), nullable=False)
+    technical_skills = db.Column(db.String(), nullable=False)
+    soft_skills = db.Column(db.String(), nullable=False)
+    requirements = db.Column(db.String(), nullable=False)
+
+    # ProjectLead (TODO: it's own table)
+    project_lead_name = db.Column(db.String(), nullable=False)
+    project_lead_contact = db.Column(db.String(), nullable=False)
+    project_lead_picture_link = db.Column(db.String(), nullable=False)
+    project_lead_pronouns = db.Column(db.String(), nullable=False)
 
     def __repr__(self):
         return f"[PROJECT-{self.id}] name: {self.title}"
@@ -63,21 +77,6 @@ class Project(db.Model):
         kwargs = serializeList(projectListAttributes, kwargs)
         super(Project, self).__init__(**kwargs)
 
-
-
-
-# - title (string)
-# - description (string)
-# - objectives (list[string])
-# - accommodations (list[string])
-# - technical skills applied (list[String])
-# - Soft skills applied (list[String])
-# - requirements [list[String]]
-
-# - signup deadline (Date)
-# - project start date (Date)
-# - projectSize (integer)
-# - projectPicture (String)
 
 
 class User(db.Model):
@@ -95,21 +94,16 @@ class User(db.Model):
 
 ##### SCHEMAS #####
 
-class UserSchema(ma.SQLAlchemySchema):
+class UserSchema(ma.SQLAlchemyAutoSchema):
     class Meta:
         model = User
     
-    username = ma.auto_field()
-    email = ma.auto_field()
+    # username = ma.auto_field()
+    # email = ma.auto_field()
 
-class ProjectSchema(ma.SQLAlchemySchema):
+class ProjectSchema(ma.SQLAlchemyAutoSchema):
     class Meta:
         model = Project
-    
-    title = ma.auto_field()
-    description = ma.auto_field()
-    objectives = ma.auto_field()
-    creator = ma.auto_field()
 
 
 
