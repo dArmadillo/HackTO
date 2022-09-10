@@ -59,14 +59,29 @@ project2 = Project(
     project_lead_picture_link="TODO",
     project_lead_pronouns="He/Him.",
 )
+    # username = db.Column(db.String(80), unique=True, nullable=False)
+    # email = db.Column(db.String(120), unique=True, nullable=False)
+    # user_pronouns = db.Column(db.String(), nullable=False)
+    # user_position = db.Column(db.String(), nullable=False)
+    # user_image_link = db.Column(db.String(), nullable=False)
+    # phone_number = db.Column(db.String(), nullable=False)
+    # biography = db.Column(db.String(), nullable=False)
+    # include_in_application = db.Column(db.Boolean(), default=False, nullable=False)
+    
+    # # List
+    # key_skills = db.Column(db.String(), nullable=False)
+    # manager_notes = db.Column(db.String(), nullable=False)
+    # accomodations_needed = db.Column(db.String(), nullable=False)
 
-darren = User(username="darren", email="dar.liu1224@gmail.com")
-cheryl = User(username="cheryl", email="cheryl.chen.gura@gmail.com")
+
+user1 = User(username="Victoria Diana",email="victoriadiana@amazon.ca", user_pronouns="She/her", user_position="Junior Software Developer - Co-op", user_image_link="TODO", phone_number="647-111-2222", biography="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.", key_skills=["Java Script", "Python", "Web Development"], manager_notes=["Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."], accomodations_needed=["Recorded Meetings", "Executive Training"])
+user2 = User(username="Alex Reinhardt",email="alex.reinhardt@amazon.ca", user_pronouns="She/her", user_position="Junior Software Developer - Co-op", user_image_link="TODO", phone_number="647-111-2222", biography="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.", key_skills=["Java Script", "Python", "Web Development"], manager_notes=["Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."], accomodations_needed=["Recorded Meetings", "Executive Training"])
+
 
 link1 = UserProject(
-    id=1, user=darren, project=project1, state=UserProjectStates.APPLIED
+    id=1, user=user1, project=project1, state=UserProjectStates.APPLIED
 )
 
 db.session.add_all([project1, project2])
-db.session.add_all([darren, cheryl])
+db.session.add_all([user1, user2])
 db.session.commit()

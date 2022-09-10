@@ -78,19 +78,31 @@ class Project(db.Model):
         super(Project, self).__init__(**kwargs)
 
 
-
+userListAttributes = ['key_skills', 'manager_notes', 'accomodations_needed']
 class User(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     username = db.Column(db.String(80), unique=True, nullable=False)
     email = db.Column(db.String(120), unique=True, nullable=False)
+    user_pronouns = db.Column(db.String(), nullable=False)
+    user_position = db.Column(db.String(), nullable=False)
+    user_image_link = db.Column(db.String(), nullable=False)
+    phone_number = db.Column(db.String(), nullable=False)
+    biography = db.Column(db.String(), nullable=False)
+    include_in_application = db.Column(db.Boolean(), default=False, nullable=False)
+    
+    # List
+    key_skills = db.Column(db.String(), nullable=False)
+    manager_notes = db.Column(db.String(), nullable=False)
+    accomodations_needed = db.Column(db.String(), nullable=False)
 
     def __repr__(self):
         return f"[USER-{self.id}] name: {self.username}"
 
     # Custom init function.
     def __init__(self, **kwargs):
+        # Serialize Incoming List into String.
+        kwargs = serializeList(userListAttributes, kwargs)
         super(User, self).__init__(**kwargs)
-        self.level = 0
 
 ##### SCHEMAS #####
 
@@ -119,12 +131,15 @@ users_schema = UserSchema(many=True)
 @app.route("/api/users/")
 def users():
     all_users = User.query.all()
-    return users_schema.dump(all_users)
+    ret =  users_schema.dump(all_users)
+    for obj in ret:
+        obj = deserializeList(userListAttributes, obj)
+    return ret
 
 @app.route("/api/users/<id>")
 def user(id):
     user = User.query.get(id)
-    return user_schema.dump(user)
+    return deserializeList(userListAttributes, user_schema.dump(user))
 
 project_schema = ProjectSchema()
 projects_schema = ProjectSchema(many=True)
@@ -139,5 +154,5 @@ def projects():
 @app.route("/api/projects/<id>")
 def project(id):
     project = Project.query.get(id)
-    print(project)
-    return project_schema.dump(project)
+    project_json = project_schema.dump(project)
+    return deserializeList(projectListAttributes, project_json)
