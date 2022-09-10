@@ -7,13 +7,13 @@ db.create_all()
 project1 = Project(
     title="Project 1",
     description="This is a project.",
-    body="This the description of a project",
+    objectives=["OBJECTIVE 1", "OBJECTIVE 2"],
     creator="Amazon Inc.",
 )
 project2 = Project(
     title="Project 2",
     description="This is a project.",
-    body="This the description of a project",
+    objectives=["OBJECTIVE 1", "OBJECTIVE 2"],
     creator="Facebook Inc.",
 )
 

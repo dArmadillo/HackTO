@@ -4,11 +4,25 @@ from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
 from flask_marshmallow import Marshmallow
 import enum
+import json
 
 app = Flask(__name__)
 app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:////tmp/test.db"
 db = SQLAlchemy(app)
 ma = Marshmallow(app)
+
+
+def serializeList(listAttributes, attributes):
+    for key in attributes.keys():
+        if(key in listAttributes):
+            attributes[key] = json.dumps(attributes[key])
+    return attributes
+
+def deserializeList(listAttributes, attributes):
+    for key in attributes.keys():
+        if(key in listAttributes):
+            attributes[key] = json.loads(attributes[key])
+    return attributes
 
 ##### ENUMS #####
 
@@ -31,15 +45,39 @@ class UserProject(db.Model):
     def __repr__(self):
         return f"[ASSOC-{self.id}] PROJECT-{self.project_id} <-> USER-{self.user_id}"
 
+
+projectListAttributes = ['objectives']
 class Project(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     title = db.Column(db.String(120), nullable=False)
     description = db.Column(db.String(), nullable=False)
-    body = db.Column(db.String(), nullable=False)
+    objectives = db.Column(db.String(), nullable=False)
     creator = db.Column(db.String(120), nullable=False)
 
     def __repr__(self):
         return f"[PROJECT-{self.id}] name: {self.title}"
+
+        # Custom init function.
+    def __init__(self, **kwargs):
+        # Serialize Incoming List into String.
+        kwargs = serializeList(projectListAttributes, kwargs)
+        super(Project, self).__init__(**kwargs)
+
+
+
+
+# - title (string)
+# - description (string)
+# - objectives (list[string])
+# - accommodations (list[string])
+# - technical skills applied (list[String])
+# - Soft skills applied (list[String])
+# - requirements [list[String]]
+
+# - signup deadline (Date)
+# - project start date (Date)
+# - projectSize (integer)
+# - projectPicture (String)
 
 
 class User(db.Model):
@@ -70,7 +108,7 @@ class ProjectSchema(ma.SQLAlchemySchema):
     
     title = ma.auto_field()
     description = ma.auto_field()
-    body = ma.auto_field()
+    objectives = ma.auto_field()
     creator = ma.auto_field()
 
 
@@ -99,7 +137,10 @@ projects_schema = ProjectSchema(many=True)
 @app.route("/api/projects/")
 def projects():
     all_projects = Project.query.all()
-    return projects_schema.dump(all_projects)
+    ret =  projects_schema.dump(all_projects)
+    for obj in ret:
+        obj = deserializeList(projectListAttributes, obj)
+    return ret
 
 @app.route("/api/projects/<id>")
 def project(id):
