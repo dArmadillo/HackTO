@@ -36,11 +36,9 @@ export default function NavTabs() {
       <Navbar.Toggle aria-controls="basic-navbar-nav" />
       <div class="d-flex align-items-center">
         <Nav>
-          <Nav.Link href="#home">Applications</Nav.Link>
+          <Nav.Link href="#current-projects">Current Projects</Nav.Link>
           |
-          <Nav.Link href="#link">Current Projects</Nav.Link>
-          |
-          <Nav.Link href="#">Portfolio</Nav.Link>
+          <Nav.Link href="#portfolio">Portfolio</Nav.Link>
         </Nav>
         <div>
           <p class="welcome-text">Welcome {name}!</p>
