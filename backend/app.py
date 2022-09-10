@@ -12,4 +12,20 @@ class User(db.Model):
     email = db.Column(db.String(120), unique=True, nullable=False)
 
     def __repr__(self):
-        return f"[{self.id}] User {self.username}"
+        return f"[USER-{self.id}] name: {self.username}"
+
+    # Custom init function.
+    def __init__(self, **kwargs):
+        super(User, self).__init__(**kwargs)
+        self.level = 0
+
+
+class Project(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    title = db.Column(db.String(120), nullable=False)
+    description = db.Column(db.String(), nullable=False)
+    body = db.Column(db.String(), nullable=False)
+    creator = db.Column(db.String(120), nullable=False)
+
+    def __repr__(self):
+        return f"[PROJECT-{self.id}] name: {self.title}"
