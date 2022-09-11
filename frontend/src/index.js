@@ -8,12 +8,13 @@ import HeaderComponent from './components/HeaderComponent'
 import ProfilePage from './components/user/ProfilePage';
 
 import 'bootstrap/dist/css/bootstrap.min.css';
+import ProjectDashboardPage from './pages/ProjectDashboardPage';
 
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
-    <HeaderComponent name="Victoria" profileImageUrl = "https://expertphotography.b-cdn.net/wp-content/uploads/2020/08/profile-photos-4.jpg"/>
-    <ProfilePage profileImageUrl = "https://expertphotography.b-cdn.net/wp-content/uploads/2020/08/profile-photos-4.jpg" name="Victoria Diana" pronouns="She/Her" email='victoriadaiana22@gmail.com' managerNotes="test test"/>
+    <HeaderComponent/>
+    <ProjectDashboardPage/>
   </React.StrictMode>
 );
