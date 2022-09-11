@@ -2,6 +2,7 @@ import * as React from 'react';
 import Box from '@mui/material/Box';
 import Tabs from '@mui/material/Tabs';
 import Tab from '@mui/material/Tab';
+import { Avatar } from '@mui/material';
 import './HeaderComponent.scss'
 
 import Container from 'react-bootstrap/Container';
@@ -12,8 +13,7 @@ import NavDropdown from 'react-bootstrap/NavDropdown';
 import AmazonLogo from '../assets/images/AmazonLogo.png'
 import AmazonLogoExplore from '../assets/images/Explore.png'
 
-export default function NavTabs() {
-  let name = 'Candy';
+export default function NavTabs(props) {
 
   const [value, setValue] = React.useState(0);
 
@@ -40,9 +40,11 @@ export default function NavTabs() {
           |
           <Nav.Link href="#portfolio">Portfolio</Nav.Link>
         </Nav>
-        <div>
-          <p class="welcome-text">Welcome {name}!</p>
+          <p class="welcome-text">Welcome {props.name}!</p>
+        <div style={{padding: 20}}>
+          <Avatar alt="Remy Sharp" src={props.profileImageUrl} />
         </div>
+
       </div>
     </div>
   </Navbar>

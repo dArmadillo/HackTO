@@ -13,7 +13,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
-    <HeaderComponent/>
-    <ProfilePage profileImageUrl = "https://expertphotography.b-cdn.net/wp-content/uploads/2020/08/profile-photos-4.jpg" name="Victoria Diana" pronouns="She/Her"/>
+    <HeaderComponent name="Victoria" profileImageUrl = "https://expertphotography.b-cdn.net/wp-content/uploads/2020/08/profile-photos-4.jpg"/>
+    <ProfilePage profileImageUrl = "https://expertphotography.b-cdn.net/wp-content/uploads/2020/08/profile-photos-4.jpg" name="Victoria Diana" pronouns="She/Her" email='victoriadaiana22@gmail.com' managerNotes="test test"/>
   </React.StrictMode>
 );
