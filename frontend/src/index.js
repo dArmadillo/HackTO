@@ -7,13 +7,14 @@ import ProjectProfile from './components/project/ProjectProfile'
 import HeaderComponent from './components/HeaderComponent'
 
 import 'bootstrap/dist/css/bootstrap.min.css';
+import ProjectDashboardPage from './pages/ProjectDashboardPage';
 
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
     <HeaderComponent/>
-    <ProjectProfile/>
+    <ProjectDashboardPage/>
     
   </React.StrictMode>
 );
