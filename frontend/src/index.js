@@ -16,6 +16,5 @@ root.render(
   <React.StrictMode>
     <HeaderComponent/>
     <ProjectDashboardPage/>
-    
   </React.StrictMode>
 );
