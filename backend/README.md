@@ -4,8 +4,20 @@ $ python3 -m venv venv
 $ source venv/bin/activate
 (venv) $ python -m pip install -r requirements.txt
 ```
+You might need to hand install `flask_alchemy` and then `deactivate` and then re-enter venv.
 
-## Running the Application
+## How to run application
+1. Load dummy data
+```
+$ python load_data
+```
+2. Run Server (`localhost:5000` by default)
+```
+$ flask run
+```
+
+
+## Adding stuff by hand (note running load_Data clears all data first)
 ```
 1. Open up python shell (from outside of backend dir)
 $ python
@@ -19,6 +31,4 @@ $ python
 3. How to drop.
 >>>db.drop_all()
 
-4. Run Server
-$ flask run
 ```
