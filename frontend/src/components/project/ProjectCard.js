@@ -1,5 +1,7 @@
 import Card from '@mui/material/Card';
 import CardActions from '@mui/material/CardActions';
+import CardHeader from '@mui/material/CardHeader';
+
 import CardContent from '@mui/material/CardContent';
 import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
@@ -15,6 +17,7 @@ export default function ProjectCard({data}) {
     fontSize:12, color:'white', backgroundColor:'#ED6C02', marginTop:'5%'
   }
   return (
+<<<<<<< HEAD
     <>
       <div style={{
         display:'flex'
@@ -86,5 +89,6 @@ export default function ProjectCard({data}) {
 
     </div>
     </>
+
   );
 }
