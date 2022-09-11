@@ -17,7 +17,6 @@ export default function ProjectCard({data}) {
     fontSize:12, color:'white', backgroundColor:'#ED6C02', marginTop:'5%'
   }
   return (
-<<<<<<< HEAD
     <>
       <div style={{
         display:'flex'
